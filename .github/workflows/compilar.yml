@@ -15,16 +15,18 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: 3. Limpar Conflitos do Windows Phone
+    - name: 3. Criar Disfarce de Bibliotecas Antigas
       run: |
-        # Apaga fisicamente as pastas de propriedades e stubs que duplicavam o código
         rm -rf "Sonic4 ep I/Properties"
         rm -rf Stubs/
+        mkdir -p Stubs
         
-        # Remove a linha que tentava ler os sensores do telefone antigo dentro do código principal
-        sed -i '/using Microsoft.Devices;/d' "Sonic4 ep I/AppMain.cs"
+        # Cria um arquivo falso para enganar o compilador sobre o GamerServices e Phone
+        echo 'namespace Microsoft.Xna.Framework.GamerServices { public class GamerServicesComponent {} public static class Guide { public static bool IsVisible => false; } }
+        namespace Microsoft.Devices { public class VibrateController { public static VibrateController Default => new VibrateController(); public void Start(System.TimeSpan t) {} public void Stop() {} } }
+        namespace Microsoft.Phone.Tasks { public class WebBrowserTask { public string URL { get; set; } public void Show() {} } }' > Stubs/DisfarceWindowsPhone.cs
 
-    - name: 4. Criar Arquivo de Projeto Limpo
+    - name: 4. Criar Arquivo de Projeto Limpo com o Disfarce
       run: |
         echo '<Project Sdk="Microsoft.NET.Sdk">
           <PropertyGroup>
