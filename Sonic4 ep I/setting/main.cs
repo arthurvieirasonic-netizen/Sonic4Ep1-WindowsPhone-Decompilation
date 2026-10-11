@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 namespace setting
 {
 	// Token: 0x02000428 RID: 1064
-	public class main
+	public class SettingsMain
 	{
 		// Token: 0x0400646F RID: 25711
 		public const uint c_draw_state = 4U;
