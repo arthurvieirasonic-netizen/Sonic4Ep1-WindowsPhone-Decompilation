@@ -15,12 +15,17 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: 3. Criar Arquivo de Projeto Ajustado
+    - name: 3. Limpar Conflitos do Windows Phone
       run: |
-        # Deleta a pasta antiga de toque que conflita com o MonoGame moderno
+        # Apaga fisicamente as pastas de propriedades e stubs que duplicavam o código
+        rm -rf "Sonic4 ep I/Properties"
         rm -rf Stubs/
         
-        # Reconstrói o arquivo de projeto corrigindo a duplicação de atributos
+        # Remove a linha que tentava ler os sensores do telefone antigo dentro do código principal
+        sed -i '/using Microsoft.Devices;/d' "Sonic4 ep I/AppMain.cs"
+
+    - name: 4. Criar Arquivo de Projeto Limpo
+      run: |
         echo '<Project Sdk="Microsoft.NET.Sdk">
           <PropertyGroup>
             <OutputType>Exe</OutputType>
@@ -36,11 +41,11 @@ jobs:
           </ItemGroup>
         </Project>' > Sonic4Ep1.csproj
 
-    - name: 4. Compilar Executável Nativo Linux ARM64
+    - name: 5. Compilar Executável Nativo Linux ARM64
       run: |
         dotnet publish Sonic4Ep1.csproj -c Release -r linux-arm64 --self-contained true -o ./output
 
-    - name: 5. Guardar Seu Port
+    - name: 6. Guardar Seu Port
       uses: actions/upload-artifact@v4
       with:
         name: meu-port-sonic4-r36s
