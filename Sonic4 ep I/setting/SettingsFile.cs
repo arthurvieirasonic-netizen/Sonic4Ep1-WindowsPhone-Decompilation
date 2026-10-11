@@ -3,7 +3,7 @@
 namespace setting
 {
 	// Token: 0x02000427 RID: 1063
-	public class file
+	public class SettingsFile
 	{
 		// Token: 0x0400646B RID: 25707
 		public const string c_global_ama = "G_COM/MENU/G_PAUSE.AMA";
