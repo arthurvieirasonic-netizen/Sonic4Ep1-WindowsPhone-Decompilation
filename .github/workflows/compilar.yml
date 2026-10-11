@@ -1,0 +1,44 @@
+name: Compilar Port Nativo Sonic 4 R36S
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 1. Baixar Codigo Fonte
+      uses: actions/checkout@v4
+      with:
+        submodules: false # Bloqueia o erro 128 ignorando links mortos do Git
+
+    - name: 2. Instalar Ambiente .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: 3. Criar Arquivo de Projeto Limpo
+      run: |
+        # Substitui os arquivos de configuração antigos por um moderno compatível com o R36S
+        echo '<Project Sdk="Microsoft.NET.Sdk">
+          <PropertyGroup>
+            <OutputType>Exe</OutputType>
+            <TargetFramework>net8.0</TargetFramework>
+            <ImplicitUsings>enable</ImplicitUsings>
+            <Nullable>enable</Nullable>
+            <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+          </PropertyGroup>
+          <ItemGroup>
+            <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+            <PackageReference Include="NVorbis" Version="0.10.5" />
+          </ItemGroup>
+        </Project>' > Sonic4Ep1.csproj
+
+    - name: 4. Compilar Executável Nativo Linux ARM64
+      run: |
+        # Compila o jogo principal gerando o arquivo pronto para o portátil
+        dotnet publish Sonic4Ep1.csproj -c Release -r linux-arm64 --self-contained true -o ./output
+
+    - name: 5. Guardar Seu Port
+      uses: actions/upload-artifact@v4
+      with:
+        name: meu-port-sonic4-r36s
+        path: ./output/
