@@ -8,16 +8,19 @@ jobs:
     - name: 1. Baixar Codigo Fonte
       uses: actions/checkout@v4
       with:
-        submodules: false # Bloqueia o erro 128 ignorando links mortos do Git
+        submodules: false
 
     - name: 2. Instalar Ambiente .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    - name: 3. Criar Arquivo de Projeto Limpo
+    - name: 3. Criar Arquivo de Projeto Ajustado
       run: |
-        # Substitui os arquivos de configuração antigos por um moderno compatível com o R36S
+        # Deleta a pasta antiga de toque que conflita com o MonoGame moderno
+        rm -rf Stubs/
+        
+        # Reconstrói o arquivo de projeto corrigindo a duplicação de atributos
         echo '<Project Sdk="Microsoft.NET.Sdk">
           <PropertyGroup>
             <OutputType>Exe</OutputType>
@@ -25,6 +28,7 @@ jobs:
             <ImplicitUsings>enable</ImplicitUsings>
             <Nullable>enable</Nullable>
             <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+            <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
           </PropertyGroup>
           <ItemGroup>
             <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
@@ -34,7 +38,6 @@ jobs:
 
     - name: 4. Compilar Executável Nativo Linux ARM64
       run: |
-        # Compila o jogo principal gerando o arquivo pronto para o portátil
         dotnet publish Sonic4Ep1.csproj -c Release -r linux-arm64 --self-contained true -o ./output
 
     - name: 5. Guardar Seu Port
