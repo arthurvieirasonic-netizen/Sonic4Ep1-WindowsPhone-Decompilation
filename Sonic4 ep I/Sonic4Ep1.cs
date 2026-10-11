@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Devices.Sensors;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
@@ -60,18 +59,6 @@ public class Sonic4Ep1 : Game
 		{
 			this.appMain = new AppMain(this, this.graphics, base.GraphicsDevice);
 			this.appMain.AppInit("");
-			if (this.accelerometer == null)
-			{
-				this.accelerometer = new Accelerometer();
-			}
-			this.accelerometer.ReadingChanged += new EventHandler<AccelerometerReadingEventArgs>(this.accelerometer_ReadingChanged);
-			try
-			{
-				this.accelerometer.Start();
-			}
-			catch (AccelerometerFailedException)
-			{
-			}
 		}
 		catch (Exception)
 		{
@@ -86,24 +73,6 @@ public class Sonic4Ep1 : Game
 		{
 			SaveState._saveFile(SaveState.save);
 		}
-		//if (!Guide.IsVisible)
-		//{
-		//	this.storeSystemVolume = true;
-		//	try
-		//	{
-		//		if (!AppMain.g_ao_sys_global.is_playing_device_bgm_music)
-		//		{
-		//			MediaPlayer.Pause();
-		//		}
-		//		MediaPlayer.Volume = this.deviceMusicVolume;
-		//		return;
-		//	}
-		//	catch (Exception)
-		//	{
-		//		return;
-		//	}
-		//}
-		//this.storeSystemVolume = false;
 	}
 
 	// Token: 0x0600287E RID: 10366 RVA: 0x00153128 File Offset: 0x00151328
@@ -118,14 +87,6 @@ public class Sonic4Ep1 : Game
 		{
 			AppMain.g_pause_flag = true;
 		}
-	}
-
-	// Token: 0x0600287F RID: 10367 RVA: 0x00153158 File Offset: 0x00151358
-	private void accelerometer_ReadingChanged(object sender, AccelerometerReadingEventArgs e)
-	{
-		this.accel.X = (float)e.X;
-		this.accel.Y = (float)e.Y;
-		this.accel.Z = (float)e.Z;
 	}
 
 	// Token: 0x06002880 RID: 10368 RVA: 0x00153190 File Offset: 0x00151390
@@ -154,9 +115,9 @@ public class Sonic4Ep1 : Game
 		{
 			base.Update(gameTime);
 		}
-		catch (GameUpdateRequiredException e)
+		catch (Exception e)
 		{
-			XBOXLive.HandleGameUpdateRequired(e);
+			XBOXLive.HandleGameUpdateRequired(null);
 		}
 	}
 
@@ -202,23 +163,20 @@ public class Sonic4Ep1 : Game
 	public RasterizerState scissorState;
 
 	// Token: 0x040062B2 RID: 25266
-	private Accelerometer accelerometer;
-
-	// Token: 0x040062B3 RID: 25267
 	private AppMain appMain;
 
-	// Token: 0x040062B4 RID: 25268
+	// Token: 0x040062B3 RID: 25267
 	public SpriteBatch spriteBatch;
 
-	// Token: 0x040062B5 RID: 25269
+	// Token: 0x040062B4 RID: 25268
 	protected float deviceMusicVolume;
 
-	// Token: 0x040062B6 RID: 25270
+	// Token: 0x040062B5 RID: 25269
 	protected bool storeSystemVolume = true;
 
-	// Token: 0x040062B7 RID: 25271
+	// Token: 0x040062B6 RID: 25270
 	private Vector3 accel;
 
-	// Token: 0x040062B8 RID: 25272
+	// Token: 0x040062B7 RID: 25271
 	private static bool inputDataRead = true;
 }
