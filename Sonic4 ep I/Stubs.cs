@@ -1,8 +1,6 @@
 using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-// Definições globais de acelerômetro e ícones de mensagem
+// Ícones de mensagem para caixas de diálogo no jogo
 public enum MessageBoxIcon
 {
 	None,
@@ -10,6 +8,7 @@ public enum MessageBoxIcon
 	Warning
 }
 
+// Suporte ao Acelerômetro no escopo global
 public class Accelerometer
 {
 	public bool IsSupported => false;
@@ -17,6 +16,7 @@ public class Accelerometer
 	public void Stop() { }
 }
 
+// Suporte ao Acelerômetro dentro do namespace específico
 namespace Microsoft.Devices.Sensors
 {
 	public class Accelerometer
@@ -24,34 +24,5 @@ namespace Microsoft.Devices.Sensors
 		public bool IsSupported => false;
 		public void Start() { }
 		public void Stop() { }
-	}
-}
-
-namespace Microsoft.Xna.Framework.GamerServices
-{
-	public static class Guide
-	{
-		public static bool IsTrialMode => false;
-		public static bool IsScreenSaverEnabled { get; set; } = false;
-
-		public static IAsyncResult BeginShowMessageBox(string title, string text, System.Collections.Generic.IEnumerable<string> buttons, int focusButton, MessageBoxIcon icon, AsyncCallback callback, object state)
-		{
-			return null;
-		}
-
-		public static int? EndShowMessageBox(IAsyncResult result)
-		{
-			return 0;
-		}
-
-		public static void ShowMarketplace(PlayerIndex player)
-		{
-		}
-	}
-
-	public class GamerServicesComponent : GameComponent
-	{
-		public bool Enabled { get; set; } = false;
-		public GamerServicesComponent(Game game) : base(game) { }
 	}
 }
