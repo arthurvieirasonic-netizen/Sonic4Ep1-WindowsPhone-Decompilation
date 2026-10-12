@@ -1,6 +1,15 @@
 using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-// Classe global para o AppMain.cs achar o Acelerômetro direto
+// Definições globais de acelerômetro e ícones de mensagem
+public enum MessageBoxIcon
+{
+	None,
+	Error,
+	Warning
+}
+
 public class Accelerometer
 {
 	public bool IsSupported => false;
@@ -8,7 +17,6 @@ public class Accelerometer
 	public void Stop() { }
 }
 
-// Namespace completo para caso ele busque pelo caminho longo
 namespace Microsoft.Devices.Sensors
 {
 	public class Accelerometer
@@ -16,5 +24,34 @@ namespace Microsoft.Devices.Sensors
 		public bool IsSupported => false;
 		public void Start() { }
 		public void Stop() { }
+	}
+}
+
+namespace Microsoft.Xna.Framework.GamerServices
+{
+	public static class Guide
+	{
+		public static bool IsTrialMode => false;
+		public static bool IsScreenSaverEnabled { get; set; } = false;
+
+		public static IAsyncResult BeginShowMessageBox(string title, string text, System.Collections.Generic.IEnumerable<string> buttons, int focusButton, MessageBoxIcon icon, AsyncCallback callback, object state)
+		{
+			return null;
+		}
+
+		public static int? EndShowMessageBox(IAsyncResult result)
+		{
+			return 0;
+		}
+
+		public static void ShowMarketplace(PlayerIndex player)
+		{
+		}
+	}
+
+	public class GamerServicesComponent : GameComponent
+	{
+		public bool Enabled { get; set; } = false;
+		public GamerServicesComponent(Game game) : base(game) { }
 	}
 }
