@@ -1,28 +1,23 @@
 using System;
+using Microsoft.Xna.Framework;
 
-namespace Microsoft.Devices.Sensors
-{
-    public class Accelerometer
-    {
-        public event EventHandler<AccelerometerReadingEventArgs> ReadingChanged;
-        public void Start() { }
-        public void Stop() { }
-    }
-
-    public class AccelerometerReadingEventArgs : EventArgs
-    {
-        public double X => 0;
-        public double Y => 0;
-        public double Z => 0;
-    }
-
-    public class AccelerometerFailedException : Exception { }
-}
+public enum MessageBoxIcon { None, Error, Warning }
 
 namespace Microsoft.Xna.Framework.GamerServices
 {
-    public class GamerProfile { }
-    public class SignedInGamer { }
-    public class SignedInEventArgs : EventArgs { }
-    public class GameUpdateRequiredException : Exception { }
+	public static class Guide
+	{
+		public static bool IsTrialMode => false;
+		public static bool IsScreenSaverEnabled { get; set; } = false;
+
+		public static IAsyncResult BeginShowMessageBox(string title, string text, System.Collections.Generic.IEnumerable<string> buttons, int focusButton, MessageBoxIcon icon, AsyncCallback callback, object state) => null;
+		public static int? EndShowMessageBox(IAsyncResult result) => 0;
+		public static void ShowMarketplace(PlayerIndex player) { }
+	}
+
+	public class GamerServicesComponent : GameComponent
+	{
+		public bool Enabled { get; set; } = false;
+		public GamerServicesComponent(Game game) : base(game) { }
+	}
 }
