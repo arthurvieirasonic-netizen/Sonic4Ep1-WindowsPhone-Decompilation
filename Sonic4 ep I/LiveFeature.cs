@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 
 public class LiveFeature
 {
 	public static Game GAME;
 	private static LiveFeature s_instance;
+	public string lang_suffix = "us"; // Adicionado para o Upsell.cs
 
 	public static LiveFeature getInstance()
 	{
@@ -15,7 +16,6 @@ public class LiveFeature
 		return LiveFeature.s_instance;
 	}
 
-	// Métodos vazios só para o compilador não reclamar de métodos ausentes
 	public void Initialize(Game game)
 	{
 		GAME = game;
@@ -27,6 +27,15 @@ public class LiveFeature
 
 	public bool IsTrialMode()
 	{
-		return false; // Jogo completo, sem modo de teste
+		return false;
+	}
+
+	public bool InputOverride()
+	{
+		return false;
+	}
+
+	public void ShowOverride()
+	{
 	}
 }
