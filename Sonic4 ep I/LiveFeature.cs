@@ -5,7 +5,7 @@ public class LiveFeature
 {
 	public static Game GAME;
 	private static LiveFeature s_instance;
-	public string lang_suffix = "us"; // Adicionado para o Upsell.cs
+	public static string lang_suffix = "us"; // Tornou-se estático para o Upsell.cs
 
 	public static LiveFeature getInstance()
 	{
